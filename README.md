@@ -12,4 +12,5 @@
 
 ![implementation concept](docs/concept.png "Implementation Concept")
 
-
+Users(developers) will use telegram bot as a communication channel
+Telegram bot will use HTTP proxy to gRPC service, which will be connected to Gitlab API and PostgreSQL Database
