@@ -7,6 +7,6 @@ Gitlab-Telegram-Bot
 ***
 Implementation Concept
 ---------------
-[implementation concept](concept.drawio.pdf "Implementation Concept")
+![implementation concept](concept.png "Implementation Concept")
 ***
 :test:
