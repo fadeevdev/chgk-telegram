@@ -10,7 +10,8 @@
 7. Registration of developers via messenger
 ## Implementation Concept
 
-![implementation concept](docs/concept.png "Implementation Concept")
+![implementation concept](docs/concept.drawio.png "Implementation Concept")
 
 Users(developers) will use telegram bot as a communication channel
+
 Telegram bot will use HTTP proxy to gRPC service, which will be connected to Gitlab API and PostgreSQL Database
