@@ -1,12 +1,10 @@
-homework-2 for Dmitrii Fadeev
+Homework №2 for Dmitrii Fadeev
 ---------------
-***
-
-Gitlab-Telegram-Bot
+<p style="text-align: center;">Gitlab-Telegram-Bot</p>
 ===============
-***
-Implementation Concept
+<p style="text-align: center;">Implementation Concept</p>
 ---------------
-![implementation concept](concept.png "Implementation Concept")
-***
-:test:
+<p align="center">
+  <img src="docs/concept.png" alt="Implementation Concept"/>
+</p>
+
