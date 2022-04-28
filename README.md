@@ -11,16 +11,16 @@
 
 #### MVP features
 
-Users(developers) will use telegram bot as a communication channel
-
-Any user is able to register in telegram bot.
-
-After registration a user can request for a random question taken from https://db.chgk.info/xml/random API. In parallel the question will be saved to internal service database (PostgeSQL)
-
-Bot will print a random question and will start a timer waiting for an answer, in case of correct answer this will be added to database to keep a rating of users
+1. Users(developers) will use telegram bot as a communication channel
+2. Any user is able to register in telegram bot.
+3. After registration a user can request for a random question taken from https://db.chgk.info/xml/random API.
+4. Bot will print a random question and will start a timer waiting for an answer
+5. In case of correct answer this will be added to database to keep a rating of users
+6. Display top N players by quantity of questions answered correclty
 
 #### Improvements for future
 1. Request for a question after desired date. Example API: http://db.chgk.info/xml/random/from_2012-01-01/limit1
-
 2. View your history of questions answered correctly
-
+3. View your position in top
+4. Create internal database of questions pulled from https://db.chgk.info/xml API
+5. "..."
