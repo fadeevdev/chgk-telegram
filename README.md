@@ -1,17 +1,17 @@
 ## Homework №2 for Dmitrii Fadeev
-# Gitlab-Telegram-Bot
+# CHGK-Telegram-Bot
 #### Available features:
-1. Register developer, level and vacation
-2. Create teams of developers
-3. Join teams or standalone developers to project groups or separate project in Gitlab
-4. Assign one or more reviewers (configuration should be available in case of more, because of limits existing in free Gitlab versionfor just one reviewer)
-5. Notifications via messenger about new tasks
-6. "Assign to me button" for re-assigning a developer
-7. Registration of developers via messenger
+1. Random questions are taken from https://db.chgk.info/
+2. A user requests from bot a new question and a timer is started waiting for an answer
+3. Database of users who answered correctly, possibility to ask for rating via telegram bot
 ## Implementation Concept
 
 ![implementation concept](docs/concept.drawio.png "Implementation Concept")
 
 Users(developers) will use telegram bot as a communication channel
 
-Telegram bot will use HTTP proxy to gRPC service, which will be connected to Gitlab API and PostgreSQL Database
+Any user is able to register in telegram bot.
+
+After registration a user can request for a random question taken from https://db.chgk.info/xml/random API. In parallel the question will be saved to internal service database (PostgeSQL)
+
+Bot will print a random question and will start a timer waiting for an answer, in case of correct answer this will be added to database to keep a rating of users
