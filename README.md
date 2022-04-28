@@ -8,6 +8,9 @@
 
 ![implementation concept](docs/concept.drawio.png "Implementation Concept")
 
+
+#### MVP features
+
 Users(developers) will use telegram bot as a communication channel
 
 Any user is able to register in telegram bot.
@@ -15,3 +18,9 @@ Any user is able to register in telegram bot.
 After registration a user can request for a random question taken from https://db.chgk.info/xml/random API. In parallel the question will be saved to internal service database (PostgeSQL)
 
 Bot will print a random question and will start a timer waiting for an answer, in case of correct answer this will be added to database to keep a rating of users
+
+#### Improvements for future
+1. Request for a question after desired date. Example API: http://db.chgk.info/xml/random/from_2012-01-01/limit1
+
+2. View your history of questions answered correctly
+
