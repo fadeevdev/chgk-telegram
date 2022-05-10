@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  chgk:
+    build:
+      context: .
+      dockerfile: Dockerfile.chgk
+    container_name: chgk
+
+    ports:
+      - 8080:8080
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway
+    container_name: web
+    ports:
+      - 8081:8081
+    environment:
+      - PORT=8081
+    depends_on:
+      - web

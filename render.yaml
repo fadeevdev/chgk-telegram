@@ -1,0 +1,30 @@
+services:
+  # A Docker web service
+  - type: web
+    name: chgk
+    env: docker
+    repo: https://github.com/fadeevdev/chgk-telegram.git
+    dockerfilePath: ./Dockerfile.chgk
+    dockerContext: .
+    region: oregon
+    plan: free
+    branch: master # optional (uses repo default)
+    numInstances: 1 # optional (defaults to 1)
+    envVars:
+      - key: "PORT"
+        value: "80"
+
+    autoDeploy: true # optional
+
+  - type: web
+      name: gateway
+      env: docker
+      repo: https://github.com/fadeevdev/chgk-telegram.git
+      dockerfilePath: ./Dockerfile.gateway
+      dockerContext: .
+      region: oregon
+      plan: free
+      branch: master # optional (uses repo default)
+      numInstances: 1 # optional (defaults to 1)
+
+      autoDeploy: true # optional

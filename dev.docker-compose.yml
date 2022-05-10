@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  web:
+  chgk:
     build:
       context: .
       dockerfile: Dockerfile.chgk.dev
@@ -13,11 +13,11 @@ services:
     volumes:
       - "./:/app:rw"
       - ./internal/app/chgk/config/config.yml:/app/cmd/chgk/tmp/config.yml
-  gateway:
+  web:
     build:
       context: .
       dockerfile: Dockerfile.gateway.dev
-    container_name: gateway
+    container_name: web
     ports:
       - 8081:8081
     environment:
