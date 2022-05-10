@@ -1,13 +1,13 @@
 #Base stage to compile the app from source
 FROM golang:1.18.0-stretch as build_base
 
+WORKDIR /build
+
 COPY ./go.mod /build
 COPY ./go.sum /build
 RUN go mod download
 
 COPY . /build
-
-WORKDIR /build
 
 #Run tests
 #RUN CGO_ENABLED=0 go test -v
