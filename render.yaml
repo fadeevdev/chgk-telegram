@@ -1,7 +1,7 @@
 services:
   # A Docker web service
   - type: pserv
-    name: chgk-grpc
+    name: chgk-grpc-server
     env: docker
     repo: https://github.com/fadeevdev/chgk-telegram.git
     dockerfilePath: ./Dockerfile.chgk
@@ -10,10 +10,6 @@ services:
     plan: free
     branch: master # optional (uses repo default)
     numInstances: 1 # optional (defaults to 1)
-    envVars:
-      - key: "PORT"
-        value: "80"
-
     autoDeploy: true # optional
 
   - type: web
@@ -26,5 +22,4 @@ services:
     plan: free
     branch: master # optional (uses repo default)
     numInstances: 1 # optional (defaults to 1)
-
     autoDeploy: true # optional
