@@ -20,6 +20,7 @@ RUN go build -o service ./cmd/gateway/.
 FROM alpine:latest
 RUN apk upgrade
 RUN apk add --no-cache ca-certificates && update-ca-certificates
+RUN apk add --no-cache bash
 
 WORKDIR /app
 
