@@ -15,7 +15,7 @@ COPY . /build
 
 #Compile the service
 
-RUN go build -o service ./cmd/chgk/.
+RUN export CGO_ENABLED=0 && go build -o service ./cmd/chgk/.
 
 # Fresh alpine image with copied binary from base stage
 FROM alpine:latest

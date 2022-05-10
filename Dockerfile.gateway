@@ -14,7 +14,7 @@ COPY . /build
 #RUN CGO_ENABLED=0 go test -v
 
 #Compile the service
-RUN go build -o service ./cmd/gateway/.
+RUN export CGO_ENABLED=0 && go build -o service ./cmd/gateway/.
 
 # Fresh alpine image with copied binary from base stage
 FROM alpine:latest
