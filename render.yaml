@@ -7,7 +7,7 @@ services:
     dockerfilePath: ./Dockerfile.chgk
     dockerContext: .
     region: oregon
-    plan: free
+    plan: starter
     branch: master # optional (uses repo default)
     numInstances: 1 # optional (defaults to 1)
     autoDeploy: true # optional
@@ -19,7 +19,7 @@ services:
     dockerfilePath: ./Dockerfile.gateway
     dockerContext: .
     region: oregon
-    plan: free
+    plan: starter
     branch: master # optional (uses repo default)
     numInstances: 1 # optional (defaults to 1)
     autoDeploy: true # optional
