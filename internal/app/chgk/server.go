@@ -20,17 +20,14 @@ func New(config *config.Config) *chgkServer {
 	}
 }
 
-func (s chgkServer) Register(ctx context.Context, in *pb.User) (*pb.Error, error) {
-	return &pb.Error{
-		Exists:  false,
-		Message: "",
-	}, nil
+func (s chgkServer) Register(ctx context.Context, in *pb.User) (*pb.Empty, error) {
+	return &pb.Empty{}, nil
 }
 
-func (s chgkServer) SendMessage(ctx context.Context, in *pb.SendMessageReq) (*pb.Empty, error) {
-	err := s.tg.SendMessage(in.ChatId, in.Message)
+func (s chgkServer) SendMessage(ctx context.Context, in *pb.SendMessageReq) (*pb.Message, error) {
+	mes, err := s.tg.SendMessage(in.ChatId, in.Text)
 	if err != nil {
 		return nil, err
 	}
-	return &pb.Empty{}, nil
+	return mes, nil
 }

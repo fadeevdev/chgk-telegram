@@ -22,9 +22,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ChgkServiceClient interface {
-	SendMessage(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*Empty, error)
-	Register(ctx context.Context, in *User, opts ...grpc.CallOption) (*Error, error)
-	GetTopPozition(ctx context.Context, in *User, opts ...grpc.CallOption) (*Error, error)
+	SendMessage(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*Message, error)
+	Register(ctx context.Context, in *User, opts ...grpc.CallOption) (*Empty, error)
+	GetTopPozition(ctx context.Context, in *User, opts ...grpc.CallOption) (*Empty, error)
 }
 
 type chgkServiceClient struct {
@@ -35,8 +35,8 @@ func NewChgkServiceClient(cc grpc.ClientConnInterface) ChgkServiceClient {
 	return &chgkServiceClient{cc}
 }
 
-func (c *chgkServiceClient) SendMessage(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*Empty, error) {
-	out := new(Empty)
+func (c *chgkServiceClient) SendMessage(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*Message, error) {
+	out := new(Message)
 	err := c.cc.Invoke(ctx, "/api.ChgkService/SendMessage", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -44,8 +44,8 @@ func (c *chgkServiceClient) SendMessage(ctx context.Context, in *SendMessageReq,
 	return out, nil
 }
 
-func (c *chgkServiceClient) Register(ctx context.Context, in *User, opts ...grpc.CallOption) (*Error, error) {
-	out := new(Error)
+func (c *chgkServiceClient) Register(ctx context.Context, in *User, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
 	err := c.cc.Invoke(ctx, "/api.ChgkService/Register", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -53,8 +53,8 @@ func (c *chgkServiceClient) Register(ctx context.Context, in *User, opts ...grpc
 	return out, nil
 }
 
-func (c *chgkServiceClient) GetTopPozition(ctx context.Context, in *User, opts ...grpc.CallOption) (*Error, error) {
-	out := new(Error)
+func (c *chgkServiceClient) GetTopPozition(ctx context.Context, in *User, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
 	err := c.cc.Invoke(ctx, "/api.ChgkService/GetTopPozition", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -66,9 +66,9 @@ func (c *chgkServiceClient) GetTopPozition(ctx context.Context, in *User, opts .
 // All implementations must embed UnimplementedChgkServiceServer
 // for forward compatibility
 type ChgkServiceServer interface {
-	SendMessage(context.Context, *SendMessageReq) (*Empty, error)
-	Register(context.Context, *User) (*Error, error)
-	GetTopPozition(context.Context, *User) (*Error, error)
+	SendMessage(context.Context, *SendMessageReq) (*Message, error)
+	Register(context.Context, *User) (*Empty, error)
+	GetTopPozition(context.Context, *User) (*Empty, error)
 	mustEmbedUnimplementedChgkServiceServer()
 }
 
@@ -76,13 +76,13 @@ type ChgkServiceServer interface {
 type UnimplementedChgkServiceServer struct {
 }
 
-func (UnimplementedChgkServiceServer) SendMessage(context.Context, *SendMessageReq) (*Empty, error) {
+func (UnimplementedChgkServiceServer) SendMessage(context.Context, *SendMessageReq) (*Message, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendMessage not implemented")
 }
-func (UnimplementedChgkServiceServer) Register(context.Context, *User) (*Error, error) {
+func (UnimplementedChgkServiceServer) Register(context.Context, *User) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
-func (UnimplementedChgkServiceServer) GetTopPozition(context.Context, *User) (*Error, error) {
+func (UnimplementedChgkServiceServer) GetTopPozition(context.Context, *User) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTopPozition not implemented")
 }
 func (UnimplementedChgkServiceServer) mustEmbedUnimplementedChgkServiceServer() {}

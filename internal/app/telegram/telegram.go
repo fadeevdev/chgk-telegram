@@ -2,8 +2,10 @@ package telegram
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
+	pb "gitlab.ozon.dev/fadeevdev/homework-2/api"
 	"net/http"
 	"time"
 )
@@ -18,7 +20,7 @@ func New(apiKey string) *Client {
 	}
 }
 
-func (c *Client) SendMessage(chatID uint64, message string) error {
+func (c *Client) SendMessage(chatID uint64, message string) (*pb.Message, error) {
 	cl := http.Client{Timeout: 10 * time.Second}
 	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", c.apiKey)
 
@@ -30,12 +32,17 @@ func (c *Client) SendMessage(chatID uint64, message string) error {
 	`, chatID, message)
 
 	resp, err := cl.Post(url, "application/json", bytes.NewBuffer([]byte(payload)))
-
+	defer resp.Body.Close()
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if resp.StatusCode != http.StatusOK {
-		return errors.New(resp.Status)
+		return nil, errors.New(resp.Status)
 	}
-	return err
+
+	respMess := &pb.Message{}
+
+	json.NewDecoder(resp.Body).Decode(respMess)
+
+	return respMess, err
 }
