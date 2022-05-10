@@ -6,6 +6,7 @@ import (
 	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	gw "gitlab.ozon.dev/fadeevdev/homework-2/api"
+	"gitlab.ozon.dev/fadeevdev/homework-2/internal/app/gateway/config"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"log"
@@ -13,7 +14,7 @@ import (
 	"os"
 )
 
-func run() error {
+func run(conf *config.Config) error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -34,11 +35,20 @@ func run() error {
 }
 
 func main() {
+	b, err := os.ReadFile("./config.yml")
 
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	cfg, err := config.ParseConfig(b)
+	if err != nil {
+		log.Fatal(err)
+	}
 	flag.Parse()
 	defer glog.Flush()
 
-	if err := run(); err != nil {
+	if err := run(cfg); err != nil {
 		glog.Fatal(err)
 	}
 }
