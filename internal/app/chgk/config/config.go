@@ -1,24 +1,14 @@
 package config
 
-import "gopkg.in/yaml.v2"
+import (
+	"os"
+)
 
-type configFile struct {
-	ApiKeys struct {
-		Telegram string `yaml:"telegram"`
-	} `yaml:"apiKeys"`
-}
-
-func ParseConfig(fileBytes []byte) (*Config, error) {
-	cf := configFile{}
-
-	err := yaml.Unmarshal(fileBytes, &cf)
-	if err != nil {
-		return nil, err
-	}
-
+func ParseConfig() (*Config, error) {
 	c := Config{}
 
-	c.ApiKeys.Telegram = cf.ApiKeys.Telegram
+	c.Port = os.Getenv("PORT")
+	c.ApiKeys.Telegram = os.Getenv("TELEGRAM_BOT_TOKEN")
 
 	return &c, nil
 }

@@ -6,4 +6,5 @@ type ApiKeys struct {
 
 type Config struct {
 	ApiKeys ApiKeys
+	Port    string
 }

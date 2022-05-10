@@ -24,9 +24,6 @@ FROM debian:buster-slim
 WORKDIR /app
 
 COPY --from=build_base /build/service /app/chgk
-COPY --from=build_base /build/internal/app/chgk/config/config.yml /app/config.yml
-
-EXPOSE $PORT
 
 #Run the service
 CMD ["/app/chgk"]

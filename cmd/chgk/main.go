@@ -8,24 +8,17 @@ import (
 	"google.golang.org/grpc"
 	"log"
 	"net"
-	"os"
 	"time"
 )
 
 func main() {
-	b, err := os.ReadFile("./config.yml")
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	cfg, err := config.ParseConfig(b)
+	cfg, err := config.ParseConfig()
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	newServer := chgk.New(cfg)
-	lis, err := net.Listen("tcp", ":"+os.Getenv("PORT"))
+	lis, err := net.Listen("tcp", ":"+cfg.Port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -37,6 +30,9 @@ func main() {
 
 	grpcServer := grpc.NewServer(opts...)
 	pb.RegisterChgkServiceServer(grpcServer, newServer)
+
+	log.Println("Running grpc service on port", ":"+cfg.Port)
+
 	err = grpcServer.Serve(lis)
 	if err != nil {
 		panic(err)

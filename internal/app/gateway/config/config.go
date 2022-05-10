@@ -1,24 +1,15 @@
 package config
 
-import "gopkg.in/yaml.v2"
+import (
+	"os"
+)
 
-type configFile struct {
-	GrpcServiceAddress string `yaml:"grpc_service_address"`
-	Port               string `yaml:"port"`
-}
-
-func ParseConfig(fileBytes []byte) (*Config, error) {
-	cf := configFile{}
-
-	err := yaml.Unmarshal(fileBytes, &cf)
-	if err != nil {
-		return nil, err
-	}
+func ParseConfig() (*Config, error) {
 
 	c := Config{}
 
-	c.GrpcServiceAddress = cf.GrpcServiceAddress
-	c.Port = cf.Port
+	c.GrpcServiceAddress = os.Getenv("GRPC_SERVICE_ADDRESS")
+	c.Port = os.Getenv("PORT")
 
 	return &c, nil
 }

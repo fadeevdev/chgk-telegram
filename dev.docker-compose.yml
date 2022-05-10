@@ -7,23 +7,25 @@ services:
     container_name: chgk
 
     ports:
-      - 8080:8080
+      - 8081:8081
+    environment:
+      - PORT=8081
+      - TELEGRAM_BOT_TOKEN=5309767650:AAGEr0Zn18VBbB_SOErt9jvYL77dls3i1Pk
 #    depends_on:
 #      - postgres
     volumes:
       - "./:/app:rw"
-      - ./internal/app/chgk/config/config.yml:/app/cmd/chgk/tmp/config.yml
-  web:
+  gateway:
     build:
       context: .
       dockerfile: Dockerfile.gateway.dev
-    container_name: web
+    container_name: gateway
     ports:
-      - 8081:8081
+      - 8080:8080
     environment:
-      - PORT=8081
+      - PORT=8080
+      - GRPC_SERVICE_ADDRESS=chgk:8081
     depends_on:
       - web
     volumes:
       - ./:/app
-      - ./internal/app/gateway/config/config.yml:/app/cmd/gateway/tmp/config.yml

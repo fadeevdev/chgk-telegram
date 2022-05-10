@@ -11,7 +11,6 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"log"
 	"net/http"
-	"os"
 )
 
 func run(conf *config.Config) error {
@@ -28,20 +27,14 @@ func run(conf *config.Config) error {
 		return err
 	}
 
-	log.Println("Gateway service listening on ", ":"+os.Getenv("PORT"))
+	log.Println("Running gateway service on port", ":"+conf.Port)
 
 	// Start HTTP server (and proxy calls to gRPC server endpoint)
-	return http.ListenAndServe(":"+os.Getenv("PORT"), mux)
+	return http.ListenAndServe(":"+conf.Port, mux)
 }
 
 func main() {
-	b, err := os.ReadFile("./config.yml")
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	cfg, err := config.ParseConfig(b)
+	cfg, err := config.ParseConfig()
 	if err != nil {
 		log.Fatal(err)
 	}
