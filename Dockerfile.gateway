@@ -25,6 +25,7 @@ RUN apk add --no-cache bash
 WORKDIR /app
 
 COPY --from=build_base /build/service /app/gateway
+COPY --from=build_base /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 #Run the service
 CMD ["/app/gateway"]
