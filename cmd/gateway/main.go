@@ -29,9 +29,9 @@ func run(conf *config.Config) error {
 		return err
 	}
 
-	conf.Port = fmt.Sprintf(":%s", os.Getenv("PORT"))
+	conf.Port = fmt.Sprintf("0.0.0.0:%s", os.Getenv("PORT"))
 
-	log.Println("Gateway service starting on port", conf.Port)
+	log.Println("Gateway service listening on", conf.Port)
 
 	// Start HTTP server (and proxy calls to gRPC server endpoint)
 	return http.ListenAndServe(conf.Port, mux)
