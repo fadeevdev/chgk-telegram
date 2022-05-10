@@ -30,6 +30,7 @@ func (c *Client) SendMessage(chatID uint64, message string) error {
 	`, chatID, message)
 
 	resp, err := cl.Post(url, "application/json", bytes.NewBuffer([]byte(payload)))
+	fmt.Println("resp", resp)
 	if resp.StatusCode != http.StatusOK {
 		return errors.New(resp.Status)
 	}
