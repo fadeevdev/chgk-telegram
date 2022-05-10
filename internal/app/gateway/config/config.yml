@@ -1,2 +1,2 @@
-grpc_service_address: chgk:8081
+grpc_service_address: grpc-chgk-telegram.onrender.com:8081
 port: :8080
