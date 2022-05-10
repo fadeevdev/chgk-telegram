@@ -1,8 +1,8 @@
 #Base stage to compile the app from source
 FROM golang:1.18.0-stretch as build_base
 
-COPY go.mod /build
-COPY go.sum /build
+COPY ./go.mod /build
+COPY ./go.sum /build
 RUN go mod download
 
 COPY . /build
