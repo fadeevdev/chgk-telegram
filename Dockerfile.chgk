@@ -1,6 +1,10 @@
 #Base stage to compile the app from source
 FROM golang:1.18.0-stretch as build_base
 
+COPY go.mod /build
+COPY go.sum /build
+RUN go mod download
+
 COPY . /build
 
 WORKDIR /build
@@ -9,7 +13,7 @@ WORKDIR /build
 #RUN CGO_ENABLED=0 go test -v
 
 #Compile the service
-#RUN go mod download
+
 RUN go build -o service ./cmd/chgk/.
 
 # Fresh alpine image with copied binary from base stage
