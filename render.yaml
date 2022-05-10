@@ -1,7 +1,7 @@
 services:
   # A Docker web service
   - type: pserv
-    name: chgk-grpc-server
+    name: chgk-grpc
     env: docker
     repo: https://github.com/fadeevdev/chgk-telegram.git
     dockerfilePath: ./Dockerfile.chgk
