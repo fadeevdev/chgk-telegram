@@ -54,8 +54,7 @@ func main() {
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	}
-	cfg.Port = fmt.Sprintf(":%s", port)
-	fmt.Println("port: ", port, "cfg.Port: ", cfg.Port)
+	cfg.Port = fmt.Sprintf("0.0.0.0:%s", port)
 
 	if err := run(cfg); err != nil {
 		glog.Fatal(err)
