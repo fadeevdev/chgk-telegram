@@ -1,2 +1,2 @@
-grpc_service_address: chgk-grpc:8081
+grpc_service_address: chgk-grpc-d3c3:8081
 port: :8080
