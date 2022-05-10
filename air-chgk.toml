@@ -1,0 +1,24 @@
+# Working directory
+# . or absolute path, please note that the directories following must be under root.
+root = "."
+tmp_dir = "./cmd/chgk/tmp"
+
+[build]
+# Just plain old shell command. You could use `make` as well.
+cmd = "go build -o ./cmd/chgk/tmp/main ./cmd/chgk/."
+# Binary file yields from `cmd`.
+bin = "./cmd/chgk/tmp"
+# Customize binary, can setup environment variables when run your app.
+full_bin = "APP_ENV=dev APP_USER=air cd ./cmd/chgk/tmp && ./main"
+# Watch these filename extensions.
+include_ext = ["go", "tpl", "tmpl", "html"]
+# Exclude specific regular expressions.
+exclude_regex = ["_test.go"]
+# This log file places in your tmp_dir.
+log = "air.log"
+# It's not necessary to trigger build each time file changes if it's too frequent.
+delay = 1000 # ms
+
+[misc]
+# Delete tmp directory on exit
+clean_on_exit = false

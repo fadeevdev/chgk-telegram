@@ -1,0 +1,2 @@
+grpc_service_address: "chgk:8080"
+port: ":8080"

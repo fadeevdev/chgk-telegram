@@ -1,0 +1,28 @@
+#Base stage to compile the app from source
+FROM golang:1.18.0-stretch as base
+
+WORKDIR /build
+
+COPY go.mod .
+COPY go.sum .
+
+RUN go mod download
+
+COPY . .
+#Run tests
+RUN CGO_ENABLED=0 go test -v
+
+#Compile the service
+RUN go build -o service cmd/chgk/.
+
+
+# Fresh alpine image with copied binary from base stage
+FROM alpine:latest
+RUN apk add ca-certificates
+
+COPY --from=base /build/service /app/service
+
+#Expose the port
+EXPOSE 433
+#Run the service
+CMD ["/app/service"]
