@@ -25,7 +25,7 @@ func main() {
 	}
 
 	newServer := chgk.New(cfg)
-	lis, err := net.Listen("tcp", "0.0.0.0:8081")
+	lis, err := net.Listen("tcp", ":"+os.Getenv("PORT"))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}

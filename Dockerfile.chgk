@@ -26,7 +26,5 @@ WORKDIR /app
 COPY --from=build_base /build/service /app/chgk
 COPY --from=build_base /build/internal/app/chgk/config/config.yml /app/config.yml
 
-#Expose the port
-EXPOSE 8081
 #Run the service
 CMD ["/app/chgk"]
