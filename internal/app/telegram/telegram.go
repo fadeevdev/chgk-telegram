@@ -39,10 +39,18 @@ func (c *Client) SendMessage(chatID uint64, message string) (*pb.Message, error)
 	if resp.StatusCode != http.StatusOK {
 		return nil, errors.New(resp.Status)
 	}
-
+	respMessJson := &Message{}
 	respMess := &pb.Message{}
 
-	json.NewDecoder(resp.Body).Decode(respMess)
+	respMess.From = &pb.User{}
+
+	json.NewDecoder(resp.Body).Decode(respMessJson)
+	respMess.Id = uint64(respMessJson.Result.From.Id)
+	respMess.From.Id = uint64(respMessJson.Result.From.Id)
+	respMess.From.IsBot = respMessJson.Result.From.IsBot
+	respMess.From.FirstName = respMessJson.Result.From.FirstName
+	respMess.From.Username = respMessJson.Result.From.Username
+	respMess.Date = uint64(respMessJson.Result.Date)
 
 	return respMess, err
 }

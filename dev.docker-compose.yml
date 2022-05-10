@@ -27,3 +27,11 @@ services:
       - web
     volumes:
       - ./:/app
+  postgres:
+      image: postgres:14.2
+      environment:
+        POSTGRES_DB: "chgk"
+        POSTGRES_USER: "chgkservice"
+        POSTGRES_PASSWORD: "chgk4service"
+      ports:
+        - "5432:5432"
