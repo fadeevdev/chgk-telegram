@@ -25,7 +25,5 @@ WORKDIR /app
 COPY --from=build_base /build/service /app/gateway
 COPY --from=build_base /build/internal/app/gateway/config/config.yml /app/config.yml
 
-#Expose the port
-EXPOSE $PORT
 #Run the service
 CMD ["/app/gateway"]
