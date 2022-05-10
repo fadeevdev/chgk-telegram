@@ -20,7 +20,7 @@ RUN go build -o service ./cmd/chgk/.
 # Fresh alpine image with copied binary from base stage
 FROM alpine:latest
 RUN apk upgrade
-RUN apk add ca-certificates
+RUN apk add --no-cache ca-certificates && update-ca-certificates
 
 WORKDIR /app
 
