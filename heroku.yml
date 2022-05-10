@@ -1,4 +1,4 @@
 build:
   docker:
     web: Dockerfile.gateway
-    worker: Dockerfile.chgk
+    chgk: Dockerfile.chgk
