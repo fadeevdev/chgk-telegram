@@ -3,10 +3,10 @@ FROM golang:1.18.0-stretch as build_base
 
 WORKDIR /build
 
-COPY go.mod .
-COPY go.sum .
+#COPY go.mod .
+#COPY go.sum .
 
-RUN go mod download
+#RUN go mod download
 
 COPY . ./
 #Run tests
