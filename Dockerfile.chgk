@@ -19,7 +19,7 @@ RUN go build -o service ./cmd/chgk/.
 
 # Fresh alpine image with copied binary from base stage
 FROM debian:buster-slim
-#RUN apk add ca-certificates
+RUN apk add ca-certificates
 
 WORKDIR /app
 
