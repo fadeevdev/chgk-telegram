@@ -2,3 +2,6 @@ build:
   docker:
     chgk: Dockerfile.chgk
     gateway: Dockerfile.gateway
+release:
+  image: chgk
+  image: gateway
