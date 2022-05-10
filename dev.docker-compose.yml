@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.chgk.dev
+    container_name: chgk
+    ports:
+      - 8080:8080
+#    depends_on:
+#      - postgres
+    volumes:
+      - "./:/app:rw"
+      - ./internal/app/chgk/config/config.yml:/app/cmd/chgk/tmp/config.yml
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway.dev
+    container_name: gateway
+    ports:
+      - 8081:8081
+    depends_on:
+      - web
+    volumes:
+      - ./:/app
+      - ./internal/app/gateway/config/config.yml:/app/cmd/gateway/tmp/config.yml

@@ -1,15 +1,15 @@
 # Working directory
 # . or absolute path, please note that the directories following must be under root.
 root = "."
-tmp_dir = "./cmd/chgk/tmp"
+tmp_dir = "./cmd/gateway/tmp"
 
 [build]
 # Just plain old shell command. You could use `make` as well.
-cmd = "go build -o ./cmd/chgk/tmp/main ./cmd/chgk/."
+cmd = "go build -o ./cmd/gateway/tmp/main ./cmd/gateway/."
 # Binary file yields from `cmd`.
-bin = "./cmd/chgk/tmp"
+bin = "./cmd/gateway/tmp"
 # Customize binary, can setup environment variables when run your app.
-full_bin = "APP_ENV=dev APP_USER=air cd ./cmd/chgk/tmp && ./main"
+full_bin = "APP_ENV=dev APP_USER=air cd ./cmd/gateway/tmp && ./main"
 # Watch these filename extensions.
 include_ext = ["go", "tpl", "tmpl", "html"]
 # Exclude specific regular expressions.

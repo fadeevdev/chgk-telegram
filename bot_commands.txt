@@ -1,0 +1,3 @@
+start - Register as a new player if not, and then start the bot
+question - Get a new question with timer
+top - Get top N of players answered correctly

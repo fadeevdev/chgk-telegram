@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+option go_package="gitlab.ozon.dev/fadeevdev/homework-2/api";
+
+import "google/api/annotations.proto";
+
+package api;
+
+message Question {
+  uint64 id = 1;
+  string question = 2;
+  string answer = 3;
+  string authors = 4;
+  string sources = 5;
+  string comments = 6;
+}
+
+message User {
+  uint64 id = 1;
+  bool isBot = 2;
+  string firstName = 3;
+  string lastName = 4;
+  string username = 5;
+}
+
+message Message {
+  uint64 id = 1;
+  User from = 2;
+}
+
+message SendMessageReq {
+  uint64 chatId = 1;
+  string message = 2;
+}
+
+message Top {
+  uint64 position = 1;
+
+}
+
+message Error {
+  bool exists = 1;
+  string message = 2;
+}
+
+message Empty {
+}
+
+service ChgkService {
+  rpc SendMessage(SendMessageReq) returns(Empty) {
+    option (google.api.http) = {
+      post: "/v1/message/send"
+      body: "*"
+    };
+  }
+  rpc Register(User) returns(Error) {
+    option (google.api.http) = {
+      post: "/v1/user/register"
+      body: "*"
+    };
+  };
+  rpc GetTopPozition(User) returns(Error) {
+    option (google.api.http) = {
+      post: "/v1/user/top"
+      body: "*"
+    };
+  };
+}

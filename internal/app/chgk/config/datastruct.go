@@ -1,4 +1,4 @@
-package chgk
+package config
 
 type ApiKeys struct {
 	Telegram string

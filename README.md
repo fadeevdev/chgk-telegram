@@ -24,3 +24,9 @@
 3. View your position in top
 4. Create internal database of questions pulled from https://db.chgk.info/xml API
 5. "..."
+
+
+#### tools required
+sudo apt install -y protobuf-compiler
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
