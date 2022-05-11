@@ -13,7 +13,10 @@ require (
 
 require (
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/lib/pq v1.10.5 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
+	github.com/pressly/goose/v3 v3.5.3 // indirect
 	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd // indirect
-	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
+	golang.org/x/sys v0.0.0-20220503163025-988cb79eb6c6 // indirect
 	golang.org/x/text v0.3.7 // indirect
 )

@@ -11,6 +11,11 @@ services:
     environment:
       - PORT=8081
       - TELEGRAM_BOT_TOKEN=5309767650:AAGEr0Zn18VBbB_SOErt9jvYL77dls3i1Pk
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DBNAME=chgk
+      - POSTGRES_USER=chgkservice
+      - POSTGRES_PASSWORD=chgk4service
     volumes:
       - "./:/app:rw"
   gateway:
