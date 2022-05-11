@@ -54,3 +54,7 @@ func (c *Client) SendMessage(chatID uint64, message string) (*pb.Message, error)
 
 	return respMess, err
 }
+
+func (c *Client) Register(u *pb.User) error {
+	return nil
+}

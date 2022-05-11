@@ -1,14 +1,15 @@
 package main
 
 import (
-	"database/sql"
+	"context"
 	"fmt"
 	_ "github.com/lib/pq"
 	"github.com/pressly/goose/v3"
 	pb "gitlab.ozon.dev/fadeevdev/homework-2/api"
-	"gitlab.ozon.dev/fadeevdev/homework-2/database"
 	"gitlab.ozon.dev/fadeevdev/homework-2/internal/app/chgk"
 	"gitlab.ozon.dev/fadeevdev/homework-2/internal/app/chgk/config"
+	"gitlab.ozon.dev/fadeevdev/homework-2/internal/app/database"
+	"gitlab.ozon.dev/fadeevdev/homework-2/migrations"
 	"google.golang.org/grpc"
 	"log"
 	"net"
@@ -20,24 +21,17 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	ctx := context.Background()
 
-	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
-		"password=%s dbname=%s sslmode=disable",
-		cfg.Postgres.Host, cfg.Postgres.Port, cfg.Postgres.DbUser,
-		cfg.Postgres.Password, cfg.Postgres.DbName)
-	db, err := sql.Open("postgres", psqlInfo)
-	if err != nil {
-		panic(err)
-	}
-	defer db.Close()
+	db, err := database.New(ctx, &cfg.Postgres)
 
-	goose.SetBaseFS(database.EmbedMigrations)
+	goose.SetBaseFS(migrations.EmbedMigrations)
 
 	if err := goose.SetDialect("postgres"); err != nil {
 		panic(err)
 	}
 
-	if err := goose.Up(db, "migrations"); err != nil {
+	if err := goose.Up(db, "."); err != nil {
 		panic(err)
 	}
 
