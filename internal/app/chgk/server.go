@@ -9,16 +9,16 @@ import (
 
 type chgkServer struct {
 	pb.UnimplementedChgkServiceServer
-	tg   *telegram.Client
-	repo Repository
+	tg *telegram.Client
+	//repo Repository
 }
 
-func New(config *config.Config, repo Repository) *chgkServer {
+func New(config *config.Config) *chgkServer {
 	tg := telegram.New(config.ApiKeys.Telegram)
 	return &chgkServer{
 		pb.UnimplementedChgkServiceServer{},
 		tg,
-		repo,
+		//repo,
 	}
 }
 

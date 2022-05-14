@@ -13,6 +13,6 @@ func ConnectionString(cfg *config.Postgres) string {
 		cfg.Host, cfg.Port, cfg.DbUser, cfg.Password, cfg.DbName)
 }
 
-func New(ctx context.Context, cfg *config.Postgres) (*pgxpool.Pool, error) {
+func NewPool(ctx context.Context, cfg *config.Postgres) (*pgxpool.Pool, error) {
 	return pgxpool.Connect(ctx, ConnectionString(cfg))
 }

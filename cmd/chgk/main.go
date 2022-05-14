@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	_ "github.com/lib/pq"
 	"github.com/pressly/goose/v3"
@@ -21,13 +20,14 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	ctx := context.Background()
 
-	db, err := database.New(ctx, &cfg.Postgres)
+	//ctx := context.Background()
+	//dbPool, err := database.NewPool(ctx, &cfg.Postgres)
 
 	goose.SetBaseFS(migrations.EmbedMigrations)
 
-	if err := goose.SetDialect("postgres"); err != nil {
+	db, err := goose.OpenDBWithDriver("postgres", database.ConnectionString(&cfg.Postgres))
+	if err != nil {
 		panic(err)
 	}
 
