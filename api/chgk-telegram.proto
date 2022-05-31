@@ -3,6 +3,7 @@ syntax = "proto3";
 option go_package="gitlab.ozon.dev/fadeevdev/homework-2/api";
 
 import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
 
 package api;
 
@@ -20,6 +21,7 @@ message User {
   bool isBot = 2;
   string firstName = 3;
   string username = 4;
+  google.protobuf.Timestamp created_at = 5;
 }
 
 message Message {
@@ -58,9 +60,9 @@ service ChgkService {
       body: "*"
     };
   }
-  rpc CreateUser(User) returns(ID) {
+  rpc Start(User) returns(ID) {
     option (google.api.http) = {
-      post: "/v1/user/register"
+      post: "/v1/start"
       body: "*"
     };
   };

@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ChgkServiceClient interface {
 	SendMessage(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*Message, error)
-	CreateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*ID, error)
+	Start(ctx context.Context, in *User, opts ...grpc.CallOption) (*ID, error)
 	GetTopPosition(ctx context.Context, in *User, opts ...grpc.CallOption) (*Empty, error)
 	GetRandomQuestion(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Question, error)
 }
@@ -45,9 +45,9 @@ func (c *chgkServiceClient) SendMessage(ctx context.Context, in *SendMessageReq,
 	return out, nil
 }
 
-func (c *chgkServiceClient) CreateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*ID, error) {
+func (c *chgkServiceClient) Start(ctx context.Context, in *User, opts ...grpc.CallOption) (*ID, error) {
 	out := new(ID)
-	err := c.cc.Invoke(ctx, "/api.ChgkService/CreateUser", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.ChgkService/Start", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func (c *chgkServiceClient) GetRandomQuestion(ctx context.Context, in *Empty, op
 // for forward compatibility
 type ChgkServiceServer interface {
 	SendMessage(context.Context, *SendMessageReq) (*Message, error)
-	CreateUser(context.Context, *User) (*ID, error)
+	Start(context.Context, *User) (*ID, error)
 	GetTopPosition(context.Context, *User) (*Empty, error)
 	GetRandomQuestion(context.Context, *Empty) (*Question, error)
 	mustEmbedUnimplementedChgkServiceServer()
@@ -90,8 +90,8 @@ type UnimplementedChgkServiceServer struct {
 func (UnimplementedChgkServiceServer) SendMessage(context.Context, *SendMessageReq) (*Message, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendMessage not implemented")
 }
-func (UnimplementedChgkServiceServer) CreateUser(context.Context, *User) (*ID, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
+func (UnimplementedChgkServiceServer) Start(context.Context, *User) (*ID, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Start not implemented")
 }
 func (UnimplementedChgkServiceServer) GetTopPosition(context.Context, *User) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTopPosition not implemented")
@@ -130,20 +130,20 @@ func _ChgkService_SendMessage_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ChgkService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ChgkService_Start_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(User)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ChgkServiceServer).CreateUser(ctx, in)
+		return srv.(ChgkServiceServer).Start(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.ChgkService/CreateUser",
+		FullMethod: "/api.ChgkService/Start",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChgkServiceServer).CreateUser(ctx, req.(*User))
+		return srv.(ChgkServiceServer).Start(ctx, req.(*User))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -196,8 +196,8 @@ var ChgkService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ChgkService_SendMessage_Handler,
 		},
 		{
-			MethodName: "CreateUser",
-			Handler:    _ChgkService_CreateUser_Handler,
+			MethodName: "Start",
+			Handler:    _ChgkService_Start_Handler,
 		},
 		{
 			MethodName: "GetTopPosition",
