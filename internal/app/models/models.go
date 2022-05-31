@@ -3,7 +3,7 @@ package models
 import "database/sql"
 
 type User struct {
-	ID        int
+	ID        uint64
 	Username  string
 	FirstName string
 	IsBot     bool

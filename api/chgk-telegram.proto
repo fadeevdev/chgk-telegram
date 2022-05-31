@@ -11,8 +11,8 @@ message Question {
   string question = 2;
   string answer = 3;
   string authors = 4;
-  string sources = 5;
-  string comments = 6;
+  string comments = 5;
+  string picture = 6;
 }
 
 message User {
@@ -44,6 +44,10 @@ message Error {
   string message = 2;
 }
 
+message ID {
+  uint64 id = 1;
+}
+
 message Empty {
 }
 
@@ -54,16 +58,22 @@ service ChgkService {
       body: "*"
     };
   }
-  rpc Register(User) returns(Empty) {
+  rpc CreateUser(User) returns(ID) {
     option (google.api.http) = {
       post: "/v1/user/register"
       body: "*"
     };
   };
-  rpc GetTopPozition(User) returns(Empty) {
+  rpc GetTopPosition(User) returns(Empty) {
     option (google.api.http) = {
       post: "/v1/user/top"
       body: "*"
     };
   };
+  rpc GetRandomQuestion(Empty) returns(Question) {
+    option (google.api.http) = {
+      post: "/v1/questions/random"
+      body: "*"
+      };
+  }
 }

@@ -1,12 +1,14 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	_ "github.com/lib/pq"
 	"github.com/pressly/goose/v3"
 	pb "gitlab.ozon.dev/fadeevdev/homework-2/api"
 	"gitlab.ozon.dev/fadeevdev/homework-2/internal/app/chgk"
 	"gitlab.ozon.dev/fadeevdev/homework-2/internal/app/chgk/config"
+	"gitlab.ozon.dev/fadeevdev/homework-2/internal/app/chgk/repository"
 	"gitlab.ozon.dev/fadeevdev/homework-2/internal/app/database"
 	"gitlab.ozon.dev/fadeevdev/homework-2/migrations"
 	"google.golang.org/grpc"
@@ -21,8 +23,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	//ctx := context.Background()
-	//dbPool, err := database.NewPool(ctx, &cfg.Postgres)
+	ctx := context.Background()
+	dbPool, err := database.NewPool(ctx, &cfg.Postgres)
 
 	goose.SetBaseFS(migrations.EmbedMigrations)
 
@@ -35,7 +37,7 @@ func main() {
 		panic(err)
 	}
 
-	newServer := chgk.New(cfg)
+	newServer := chgk.New(cfg, repository.New(dbPool))
 	lis, err := net.Listen("tcp", ":"+cfg.Port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)

@@ -23,8 +23,9 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ChgkServiceClient interface {
 	SendMessage(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*Message, error)
-	Register(ctx context.Context, in *User, opts ...grpc.CallOption) (*Empty, error)
-	GetTopPozition(ctx context.Context, in *User, opts ...grpc.CallOption) (*Empty, error)
+	CreateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*ID, error)
+	GetTopPosition(ctx context.Context, in *User, opts ...grpc.CallOption) (*Empty, error)
+	GetRandomQuestion(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Question, error)
 }
 
 type chgkServiceClient struct {
@@ -44,18 +45,27 @@ func (c *chgkServiceClient) SendMessage(ctx context.Context, in *SendMessageReq,
 	return out, nil
 }
 
-func (c *chgkServiceClient) Register(ctx context.Context, in *User, opts ...grpc.CallOption) (*Empty, error) {
-	out := new(Empty)
-	err := c.cc.Invoke(ctx, "/api.ChgkService/Register", in, out, opts...)
+func (c *chgkServiceClient) CreateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*ID, error) {
+	out := new(ID)
+	err := c.cc.Invoke(ctx, "/api.ChgkService/CreateUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *chgkServiceClient) GetTopPozition(ctx context.Context, in *User, opts ...grpc.CallOption) (*Empty, error) {
+func (c *chgkServiceClient) GetTopPosition(ctx context.Context, in *User, opts ...grpc.CallOption) (*Empty, error) {
 	out := new(Empty)
-	err := c.cc.Invoke(ctx, "/api.ChgkService/GetTopPozition", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.ChgkService/GetTopPosition", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *chgkServiceClient) GetRandomQuestion(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Question, error) {
+	out := new(Question)
+	err := c.cc.Invoke(ctx, "/api.ChgkService/GetRandomQuestion", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -67,8 +77,9 @@ func (c *chgkServiceClient) GetTopPozition(ctx context.Context, in *User, opts .
 // for forward compatibility
 type ChgkServiceServer interface {
 	SendMessage(context.Context, *SendMessageReq) (*Message, error)
-	Register(context.Context, *User) (*Empty, error)
-	GetTopPozition(context.Context, *User) (*Empty, error)
+	CreateUser(context.Context, *User) (*ID, error)
+	GetTopPosition(context.Context, *User) (*Empty, error)
+	GetRandomQuestion(context.Context, *Empty) (*Question, error)
 	mustEmbedUnimplementedChgkServiceServer()
 }
 
@@ -79,11 +90,14 @@ type UnimplementedChgkServiceServer struct {
 func (UnimplementedChgkServiceServer) SendMessage(context.Context, *SendMessageReq) (*Message, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendMessage not implemented")
 }
-func (UnimplementedChgkServiceServer) Register(context.Context, *User) (*Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+func (UnimplementedChgkServiceServer) CreateUser(context.Context, *User) (*ID, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
 }
-func (UnimplementedChgkServiceServer) GetTopPozition(context.Context, *User) (*Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTopPozition not implemented")
+func (UnimplementedChgkServiceServer) GetTopPosition(context.Context, *User) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTopPosition not implemented")
+}
+func (UnimplementedChgkServiceServer) GetRandomQuestion(context.Context, *Empty) (*Question, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRandomQuestion not implemented")
 }
 func (UnimplementedChgkServiceServer) mustEmbedUnimplementedChgkServiceServer() {}
 
@@ -116,38 +130,56 @@ func _ChgkService_SendMessage_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ChgkService_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ChgkService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(User)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ChgkServiceServer).Register(ctx, in)
+		return srv.(ChgkServiceServer).CreateUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.ChgkService/Register",
+		FullMethod: "/api.ChgkService/CreateUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChgkServiceServer).Register(ctx, req.(*User))
+		return srv.(ChgkServiceServer).CreateUser(ctx, req.(*User))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ChgkService_GetTopPozition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ChgkService_GetTopPosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(User)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ChgkServiceServer).GetTopPozition(ctx, in)
+		return srv.(ChgkServiceServer).GetTopPosition(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.ChgkService/GetTopPozition",
+		FullMethod: "/api.ChgkService/GetTopPosition",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChgkServiceServer).GetTopPozition(ctx, req.(*User))
+		return srv.(ChgkServiceServer).GetTopPosition(ctx, req.(*User))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ChgkService_GetRandomQuestion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChgkServiceServer).GetRandomQuestion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.ChgkService/GetRandomQuestion",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChgkServiceServer).GetRandomQuestion(ctx, req.(*Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -164,12 +196,16 @@ var ChgkService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ChgkService_SendMessage_Handler,
 		},
 		{
-			MethodName: "Register",
-			Handler:    _ChgkService_Register_Handler,
+			MethodName: "CreateUser",
+			Handler:    _ChgkService_CreateUser_Handler,
 		},
 		{
-			MethodName: "GetTopPozition",
-			Handler:    _ChgkService_GetTopPozition_Handler,
+			MethodName: "GetTopPosition",
+			Handler:    _ChgkService_GetTopPosition_Handler,
+		},
+		{
+			MethodName: "GetRandomQuestion",
+			Handler:    _ChgkService_GetRandomQuestion_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -1,4 +1,4 @@
-package chgk
+package repository
 
 import (
 	"errors"
