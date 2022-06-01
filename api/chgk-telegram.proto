@@ -27,8 +27,9 @@ message User {
 message Message {
   uint64 id = 1;
   User from = 2;
-  uint64 date = 3;
-  User via_bot = 4;
+  string text = 3;
+  uint64 date = 4;
+  User via_bot = 5;
 }
 
 message SendMessageReq {
@@ -38,7 +39,6 @@ message SendMessageReq {
 
 message Top {
   uint64 position = 1;
-
 }
 
 message Error {
@@ -54,6 +54,12 @@ message Empty {
 }
 
 service ChgkService {
+  rpc WebHook(Message) returns(Empty) {
+    option (google.api.http) = {
+      post: "/v1/webhook"
+      body: "*"
+    };
+  }
   rpc SendMessage(SendMessageReq) returns(Message) {
     option (google.api.http) = {
       post: "/v1/message/send"
