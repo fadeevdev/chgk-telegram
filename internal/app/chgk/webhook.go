@@ -25,6 +25,12 @@ func (s *chgkServer) WebHook(ctx context.Context, update *pb.Update) (*pb.Empty,
 		if err != nil {
 			return &pb.Empty{}, err
 		}
+	case "/question":
+		q, err := s.chgk.GetRandomQuestion()
+		if err != nil {
+			return &pb.Empty{}, err
+		}
+		_, err = s.tg.SendMessage(update.Message.From.Id, fmt.Sprintf("ID: %s\nВопрос: %s?\nКомментарии: %s\nАвтор(ы):%s", q.Id, q.Question, q.Comments, q.Authors))
 	}
 	return &pb.Empty{}, nil
 }
