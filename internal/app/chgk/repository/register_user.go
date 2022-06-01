@@ -5,7 +5,7 @@ import (
 	"gitlab.ozon.dev/fadeevdev/homework-2/internal/app/models"
 )
 
-func (r *repository) Start(ctx context.Context, user models.User) (ID uint64, err error) {
+func (r *repository) RegisterUser(ctx context.Context, user models.User) (ID uint64, err error) {
 
 	const query = `
 		insert into users (

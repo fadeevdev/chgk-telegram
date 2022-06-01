@@ -65,7 +65,7 @@ func local_request_ChgkService_SendMessage_0(ctx context.Context, marshaler runt
 
 }
 
-func request_ChgkService_Start_0(ctx context.Context, marshaler runtime.Marshaler, client ChgkServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_ChgkService_RegisterUser_0(ctx context.Context, marshaler runtime.Marshaler, client ChgkServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq User
 	var metadata runtime.ServerMetadata
 
@@ -77,12 +77,12 @@ func request_ChgkService_Start_0(ctx context.Context, marshaler runtime.Marshale
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.Start(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.RegisterUser(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_ChgkService_Start_0(ctx context.Context, marshaler runtime.Marshaler, server ChgkServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_ChgkService_RegisterUser_0(ctx context.Context, marshaler runtime.Marshaler, server ChgkServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq User
 	var metadata runtime.ServerMetadata
 
@@ -94,7 +94,7 @@ func local_request_ChgkService_Start_0(ctx context.Context, marshaler runtime.Ma
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.Start(ctx, &protoReq)
+	msg, err := server.RegisterUser(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -197,19 +197,19 @@ func RegisterChgkServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 
 	})
 
-	mux.Handle("POST", pattern_ChgkService_Start_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ChgkService_RegisterUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.ChgkService/Start", runtime.WithHTTPPathPattern("/v1/start"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.ChgkService/RegisterUser", runtime.WithHTTPPathPattern("/v1/user/register"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_ChgkService_Start_0(ctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_ChgkService_RegisterUser_0(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -217,7 +217,7 @@ func RegisterChgkServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 			return
 		}
 
-		forward_ChgkService_Start_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ChgkService_RegisterUser_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -331,24 +331,24 @@ func RegisterChgkServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 
 	})
 
-	mux.Handle("POST", pattern_ChgkService_Start_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ChgkService_RegisterUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/api.ChgkService/Start", runtime.WithHTTPPathPattern("/v1/start"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/api.ChgkService/RegisterUser", runtime.WithHTTPPathPattern("/v1/user/register"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_ChgkService_Start_0(ctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_ChgkService_RegisterUser_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_ChgkService_Start_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ChgkService_RegisterUser_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -400,7 +400,7 @@ func RegisterChgkServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 var (
 	pattern_ChgkService_SendMessage_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "message", "send"}, ""))
 
-	pattern_ChgkService_Start_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "start"}, ""))
+	pattern_ChgkService_RegisterUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "user", "register"}, ""))
 
 	pattern_ChgkService_GetTopPosition_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "user", "top"}, ""))
 
@@ -410,7 +410,7 @@ var (
 var (
 	forward_ChgkService_SendMessage_0 = runtime.ForwardResponseMessage
 
-	forward_ChgkService_Start_0 = runtime.ForwardResponseMessage
+	forward_ChgkService_RegisterUser_0 = runtime.ForwardResponseMessage
 
 	forward_ChgkService_GetTopPosition_0 = runtime.ForwardResponseMessage
 

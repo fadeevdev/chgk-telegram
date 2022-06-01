@@ -60,9 +60,9 @@ service ChgkService {
       body: "*"
     };
   }
-  rpc Start(User) returns(ID) {
+  rpc RegisterUser(User) returns(ID) {
     option (google.api.http) = {
-      post: "/v1/start"
+      post: "/v1/user/register"
       body: "*"
     };
   };

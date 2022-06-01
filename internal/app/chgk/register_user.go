@@ -9,7 +9,7 @@ import (
 
 const ErrUserAlreadyExists = "user already exists"
 
-func (s *chgkServer) Start(ctx context.Context, req *pb.User) (*pb.ID, error) {
+func (s *chgkServer) RegisterUser(ctx context.Context, req *pb.User) (*pb.ID, error) {
 
 	u, _ := s.GetUser(ctx, req.Id)
 
@@ -24,7 +24,7 @@ func (s *chgkServer) Start(ctx context.Context, req *pb.User) (*pb.ID, error) {
 		IsBot:     req.IsBot,
 	}
 
-	userID, err := s.repo.Start(ctx, user)
+	userID, err := s.repo.RegisterUser(ctx, user)
 
 	return &pb.ID{Id: userID}, err
 }

@@ -6,6 +6,6 @@ import (
 )
 
 type Repository interface {
-	Start(context.Context, models.User) (uint64, error)
+	RegisterUser(context.Context, models.User) (uint64, error)
 	GetUser(context.Context, uint64) (models.User, error)
 }
