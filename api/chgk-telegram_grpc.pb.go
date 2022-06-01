@@ -25,7 +25,8 @@ type ChgkServiceClient interface {
 	WebHook(ctx context.Context, in *Update, opts ...grpc.CallOption) (*Empty, error)
 	SendMessage(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*Message, error)
 	RegisterUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*ID, error)
-	GetTopPosition(ctx context.Context, in *User, opts ...grpc.CallOption) (*Empty, error)
+	GetTopPosition(ctx context.Context, in *User, opts ...grpc.CallOption) (*TopUser, error)
+	GetTopPlayers(ctx context.Context, in *Count, opts ...grpc.CallOption) (*TopUsers, error)
 	GetRandomQuestion(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*Question, error)
 }
 
@@ -64,9 +65,18 @@ func (c *chgkServiceClient) RegisterUser(ctx context.Context, in *User, opts ...
 	return out, nil
 }
 
-func (c *chgkServiceClient) GetTopPosition(ctx context.Context, in *User, opts ...grpc.CallOption) (*Empty, error) {
-	out := new(Empty)
+func (c *chgkServiceClient) GetTopPosition(ctx context.Context, in *User, opts ...grpc.CallOption) (*TopUser, error) {
+	out := new(TopUser)
 	err := c.cc.Invoke(ctx, "/api.ChgkService/GetTopPosition", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *chgkServiceClient) GetTopPlayers(ctx context.Context, in *Count, opts ...grpc.CallOption) (*TopUsers, error) {
+	out := new(TopUsers)
+	err := c.cc.Invoke(ctx, "/api.ChgkService/GetTopPlayers", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -89,7 +99,8 @@ type ChgkServiceServer interface {
 	WebHook(context.Context, *Update) (*Empty, error)
 	SendMessage(context.Context, *SendMessageReq) (*Message, error)
 	RegisterUser(context.Context, *User) (*ID, error)
-	GetTopPosition(context.Context, *User) (*Empty, error)
+	GetTopPosition(context.Context, *User) (*TopUser, error)
+	GetTopPlayers(context.Context, *Count) (*TopUsers, error)
 	GetRandomQuestion(context.Context, *SendMessageReq) (*Question, error)
 	mustEmbedUnimplementedChgkServiceServer()
 }
@@ -107,8 +118,11 @@ func (UnimplementedChgkServiceServer) SendMessage(context.Context, *SendMessageR
 func (UnimplementedChgkServiceServer) RegisterUser(context.Context, *User) (*ID, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterUser not implemented")
 }
-func (UnimplementedChgkServiceServer) GetTopPosition(context.Context, *User) (*Empty, error) {
+func (UnimplementedChgkServiceServer) GetTopPosition(context.Context, *User) (*TopUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTopPosition not implemented")
+}
+func (UnimplementedChgkServiceServer) GetTopPlayers(context.Context, *Count) (*TopUsers, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTopPlayers not implemented")
 }
 func (UnimplementedChgkServiceServer) GetRandomQuestion(context.Context, *SendMessageReq) (*Question, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRandomQuestion not implemented")
@@ -198,6 +212,24 @@ func _ChgkService_GetTopPosition_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ChgkService_GetTopPlayers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Count)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChgkServiceServer).GetTopPlayers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.ChgkService/GetTopPlayers",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChgkServiceServer).GetTopPlayers(ctx, req.(*Count))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ChgkService_GetRandomQuestion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SendMessageReq)
 	if err := dec(in); err != nil {
@@ -238,6 +270,10 @@ var ChgkService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTopPosition",
 			Handler:    _ChgkService_GetTopPosition_Handler,
+		},
+		{
+			MethodName: "GetTopPlayers",
+			Handler:    _ChgkService_GetTopPlayers_Handler,
 		},
 		{
 			MethodName: "GetRandomQuestion",

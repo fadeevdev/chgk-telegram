@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	pb "gitlab.ozon.dev/fadeevdev/homework-2/api"
+	"time"
 )
 
 func (s *chgkServer) WebHook(ctx context.Context, update *pb.Update) (*pb.Empty, error) {
@@ -34,7 +35,12 @@ func (s *chgkServer) WebHook(ctx context.Context, update *pb.Update) (*pb.Empty,
 		if err != nil {
 			return &pb.Empty{}, err
 		}
-		_, err = s.tg.SendMessage(update.Message.From.Id, fmt.Sprintf("ID: %d\nВопрос: %s?\nКомментарии: %s\nАвтор(ы):%s", q.ID, q.Question, q.Comments, q.Authors))
+		_, err = s.tg.SendMessage(update.Message.From.Id, fmt.Sprintf("ID: %d\nВопрос: %s?\nАвтор(ы):%s", q.ID, q.Question, q.Authors))
+		if err != nil {
+			return &pb.Empty{}, err
+		}
+		time.Sleep(30 * time.Second)
+		_, err = s.tg.SendMessage(update.Message.From.Id, fmt.Sprintf("К сожалению время вышло!\nКомментарии к вопросу: %s", q.Comments))
 		if err != nil {
 			return &pb.Empty{}, err
 		}

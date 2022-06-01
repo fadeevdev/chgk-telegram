@@ -10,4 +10,5 @@ type Repository interface {
 	RegisterUser(context.Context, models.User) (uint64, error)
 	GetUser(context.Context, uint64) (models.User, error)
 	SaveQuestion(ctx context.Context, question *chgk_api_client.Question) (uint64, error)
+	GetTopPlayers(ctx context.Context, n uint64) ([]models.User, error)
 }

@@ -29,6 +29,16 @@ message User {
   google.protobuf.Timestamp created_at = 5;
 }
 
+message TopUser {
+  string firstName = 1;
+  uint64 position = 2;
+  uint64 questions = 3;
+}
+
+message TopUsers {
+  repeated TopUser user = 1;
+}
+
 message Message {
   uint64 id = 1;
   User from = 2;
@@ -46,10 +56,6 @@ message SendMessageReq {
   string text = 2;
 }
 
-message Top {
-  uint64 position = 1;
-}
-
 message Error {
   bool exists = 1;
   string message = 2;
@@ -57,6 +63,10 @@ message Error {
 
 message ID {
   uint64 id = 1;
+}
+
+message Count {
+  uint64 count = 1;
 }
 
 message Empty {
@@ -81,7 +91,13 @@ service ChgkService {
       body: "*"
     };
   };
-  rpc GetTopPosition(User) returns(Empty) {
+  rpc GetTopPosition(User) returns(TopUser) {
+    option (google.api.http) = {
+      post: "/v1/user/top/user"
+      body: "*"
+    };
+  };
+  rpc GetTopPlayers(Count) returns(TopUsers) {
     option (google.api.http) = {
       post: "/v1/user/top"
       body: "*"

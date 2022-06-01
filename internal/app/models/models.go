@@ -9,3 +9,11 @@ type User struct {
 	IsBot     bool
 	CreatedAt sql.NullTime
 }
+
+type TopUser struct {
+	FirstName string
+	Position  uint64
+	Questions uint64
+}
+
+type TopUsers []TopUser
