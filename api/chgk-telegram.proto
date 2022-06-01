@@ -32,6 +32,10 @@ message Message {
   User via_bot = 5;
 }
 
+message MessageEntity {
+  
+}
+
 message SendMessageReq {
   uint64 chatId = 1;
   string text = 2;
