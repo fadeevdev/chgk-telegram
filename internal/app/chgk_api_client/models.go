@@ -8,7 +8,7 @@ type Search struct {
 }
 
 type Question struct {
-	Id       uint64 `xml:"QuestionId" json:"id"`
+	ID       uint64 `xml:"QuestionId" json:"id"`
 	Question string `xml:"Question" json:"question"`
 	Answer   string `xml:"Answer" json:"answer"`
 	Authors  string `xml:"Authors" json:"authors"`

@@ -30,7 +30,14 @@ func (s *chgkServer) WebHook(ctx context.Context, update *pb.Update) (*pb.Empty,
 		if err != nil {
 			return &pb.Empty{}, err
 		}
-		_, err = s.tg.SendMessage(update.Message.From.Id, fmt.Sprintf("ID: %s\nВопрос: %s?\nКомментарии: %s\nАвтор(ы):%s", q.Id, q.Question, q.Comments, q.Authors))
+		_, err = s.repo.SaveQuestion(ctx, q)
+		if err != nil {
+			return &pb.Empty{}, err
+		}
+		_, err = s.tg.SendMessage(update.Message.From.Id, fmt.Sprintf("ID: %d\nВопрос: %s?\nКомментарии: %s\nАвтор(ы):%s", q.ID, q.Question, q.Comments, q.Authors))
+		if err != nil {
+			return &pb.Empty{}, err
+		}
 	}
 	return &pb.Empty{}, nil
 }

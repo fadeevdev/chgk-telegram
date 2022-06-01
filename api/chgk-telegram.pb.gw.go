@@ -168,7 +168,7 @@ func local_request_ChgkService_GetTopPosition_0(ctx context.Context, marshaler r
 }
 
 func request_ChgkService_GetRandomQuestion_0(ctx context.Context, marshaler runtime.Marshaler, client ChgkServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq Empty
+	var protoReq SendMessageReq
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -185,7 +185,7 @@ func request_ChgkService_GetRandomQuestion_0(ctx context.Context, marshaler runt
 }
 
 func local_request_ChgkService_GetRandomQuestion_0(ctx context.Context, marshaler runtime.Marshaler, server ChgkServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq Empty
+	var protoReq SendMessageReq
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)

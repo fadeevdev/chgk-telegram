@@ -87,7 +87,7 @@ service ChgkService {
       body: "*"
     };
   };
-  rpc GetRandomQuestion(Empty) returns(Question) {
+  rpc GetRandomQuestion(SendMessageReq) returns(Question) {
     option (google.api.http) = {
       post: "/v1/questions/random"
       body: "*"

@@ -26,7 +26,7 @@ type ChgkServiceClient interface {
 	SendMessage(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*Message, error)
 	RegisterUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*ID, error)
 	GetTopPosition(ctx context.Context, in *User, opts ...grpc.CallOption) (*Empty, error)
-	GetRandomQuestion(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Question, error)
+	GetRandomQuestion(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*Question, error)
 }
 
 type chgkServiceClient struct {
@@ -73,7 +73,7 @@ func (c *chgkServiceClient) GetTopPosition(ctx context.Context, in *User, opts .
 	return out, nil
 }
 
-func (c *chgkServiceClient) GetRandomQuestion(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Question, error) {
+func (c *chgkServiceClient) GetRandomQuestion(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*Question, error) {
 	out := new(Question)
 	err := c.cc.Invoke(ctx, "/api.ChgkService/GetRandomQuestion", in, out, opts...)
 	if err != nil {
@@ -90,7 +90,7 @@ type ChgkServiceServer interface {
 	SendMessage(context.Context, *SendMessageReq) (*Message, error)
 	RegisterUser(context.Context, *User) (*ID, error)
 	GetTopPosition(context.Context, *User) (*Empty, error)
-	GetRandomQuestion(context.Context, *Empty) (*Question, error)
+	GetRandomQuestion(context.Context, *SendMessageReq) (*Question, error)
 	mustEmbedUnimplementedChgkServiceServer()
 }
 
@@ -110,7 +110,7 @@ func (UnimplementedChgkServiceServer) RegisterUser(context.Context, *User) (*ID,
 func (UnimplementedChgkServiceServer) GetTopPosition(context.Context, *User) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTopPosition not implemented")
 }
-func (UnimplementedChgkServiceServer) GetRandomQuestion(context.Context, *Empty) (*Question, error) {
+func (UnimplementedChgkServiceServer) GetRandomQuestion(context.Context, *SendMessageReq) (*Question, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRandomQuestion not implemented")
 }
 func (UnimplementedChgkServiceServer) mustEmbedUnimplementedChgkServiceServer() {}
@@ -199,7 +199,7 @@ func _ChgkService_GetTopPosition_Handler(srv interface{}, ctx context.Context, d
 }
 
 func _ChgkService_GetRandomQuestion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Empty)
+	in := new(SendMessageReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -211,7 +211,7 @@ func _ChgkService_GetRandomQuestion_Handler(srv interface{}, ctx context.Context
 		FullMethod: "/api.ChgkService/GetRandomQuestion",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChgkServiceServer).GetRandomQuestion(ctx, req.(*Empty))
+		return srv.(ChgkServiceServer).GetRandomQuestion(ctx, req.(*SendMessageReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
