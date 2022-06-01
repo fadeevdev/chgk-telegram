@@ -2,16 +2,16 @@
 
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE IF NOT EXISTS questions (
     id INT NOT NULL PRIMARY KEY,
-    username VARCHAR ( 50 ),
-    firstname VARCHAR ( 255 ),
-    is_bot BOOLEAN NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    question text,
+    answer text,
+    authors text,
+    comments text
     );
 -- +goose StatementEnd
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS questions;
 -- +goose StatementEnd
