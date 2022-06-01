@@ -32,7 +32,7 @@ var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
 func request_ChgkService_WebHook_0(ctx context.Context, marshaler runtime.Marshaler, client ChgkServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq Message
+	var protoReq Update
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -49,7 +49,7 @@ func request_ChgkService_WebHook_0(ctx context.Context, marshaler runtime.Marsha
 }
 
 func local_request_ChgkService_WebHook_0(ctx context.Context, marshaler runtime.Marshaler, server ChgkServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq Message
+	var protoReq Update
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)

@@ -16,6 +16,11 @@ message Question {
   string picture = 6;
 }
 
+message Update {
+  uint64 id = 1;
+  Message message = 2;
+}
+
 message User {
   uint64 id = 1;
   bool isBot = 2;
@@ -33,7 +38,7 @@ message Message {
 }
 
 message MessageEntity {
-  
+
 }
 
 message SendMessageReq {
@@ -58,7 +63,7 @@ message Empty {
 }
 
 service ChgkService {
-  rpc WebHook(Message) returns(Empty) {
+  rpc WebHook(Update) returns(Empty) {
     option (google.api.http) = {
       post: "/v1/webhook"
       body: "*"

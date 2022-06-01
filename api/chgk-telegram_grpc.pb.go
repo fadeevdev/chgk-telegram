@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ChgkServiceClient interface {
-	WebHook(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Empty, error)
+	WebHook(ctx context.Context, in *Update, opts ...grpc.CallOption) (*Empty, error)
 	SendMessage(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*Message, error)
 	RegisterUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*ID, error)
 	GetTopPosition(ctx context.Context, in *User, opts ...grpc.CallOption) (*Empty, error)
@@ -37,7 +37,7 @@ func NewChgkServiceClient(cc grpc.ClientConnInterface) ChgkServiceClient {
 	return &chgkServiceClient{cc}
 }
 
-func (c *chgkServiceClient) WebHook(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Empty, error) {
+func (c *chgkServiceClient) WebHook(ctx context.Context, in *Update, opts ...grpc.CallOption) (*Empty, error) {
 	out := new(Empty)
 	err := c.cc.Invoke(ctx, "/api.ChgkService/WebHook", in, out, opts...)
 	if err != nil {
@@ -86,7 +86,7 @@ func (c *chgkServiceClient) GetRandomQuestion(ctx context.Context, in *Empty, op
 // All implementations must embed UnimplementedChgkServiceServer
 // for forward compatibility
 type ChgkServiceServer interface {
-	WebHook(context.Context, *Message) (*Empty, error)
+	WebHook(context.Context, *Update) (*Empty, error)
 	SendMessage(context.Context, *SendMessageReq) (*Message, error)
 	RegisterUser(context.Context, *User) (*ID, error)
 	GetTopPosition(context.Context, *User) (*Empty, error)
@@ -98,7 +98,7 @@ type ChgkServiceServer interface {
 type UnimplementedChgkServiceServer struct {
 }
 
-func (UnimplementedChgkServiceServer) WebHook(context.Context, *Message) (*Empty, error) {
+func (UnimplementedChgkServiceServer) WebHook(context.Context, *Update) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method WebHook not implemented")
 }
 func (UnimplementedChgkServiceServer) SendMessage(context.Context, *SendMessageReq) (*Message, error) {
@@ -127,7 +127,7 @@ func RegisterChgkServiceServer(s grpc.ServiceRegistrar, srv ChgkServiceServer) {
 }
 
 func _ChgkService_WebHook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Message)
+	in := new(Update)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -139,7 +139,7 @@ func _ChgkService_WebHook_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: "/api.ChgkService/WebHook",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChgkServiceServer).WebHook(ctx, req.(*Message))
+		return srv.(ChgkServiceServer).WebHook(ctx, req.(*Update))
 	}
 	return interceptor(ctx, in, info, handler)
 }
