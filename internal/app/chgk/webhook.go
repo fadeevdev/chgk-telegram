@@ -41,12 +41,7 @@ func (s *chgkServer) WebHook(ctx context.Context, update *pb.Update) (*pb.Empty,
 		if err != nil {
 			return &pb.Empty{}, err
 		}
-		_, err = s.tg.SendMessage(update.Message.From.Id,
-			fmt.Sprintf("К сожалению время вышло!\nКомментарии к вопросу: %s\nПравильный ответ:%s", q.Comments, q.Answer))
-
-		if err != nil {
-			return &pb.Empty{}, err
-		}
+		return &pb.Empty{}, nil
 	default:
 		q := s.cache.Get(update.Message.From.Id)
 		if q != nil {
