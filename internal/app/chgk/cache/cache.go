@@ -6,20 +6,20 @@ import (
 	"time"
 )
 
-type Question struct {
+type question struct {
 	q       *chgk_api_client.Question
 	expired int64
 }
 
 type QuestionCache struct {
-	m    map[uint64]*Question
+	m    map[uint64]*question
 	wg   sync.WaitGroup
 	mu   sync.Mutex
 	stop chan struct{}
 }
 
 func New(cleanupInterval time.Duration) *QuestionCache {
-	m := make(map[uint64]*Question)
+	m := make(map[uint64]*question)
 	qc := &QuestionCache{
 		m: m,
 	}
@@ -32,49 +32,56 @@ func New(cleanupInterval time.Duration) *QuestionCache {
 	return qc
 }
 
-func (q *QuestionCache) Put(userID uint64, question *chgk_api_client.Question, expired int64) {
-	q.mu.Lock()
-	q.m[userID] = &Question{question, expired}
-	q.mu.Unlock()
+func (qc *QuestionCache) Put(userID uint64, q *chgk_api_client.Question, expired int64) {
+	qc.mu.Lock()
+	defer qc.mu.Unlock()
+
+	qc.m[userID] = &question{q, expired}
 }
 
-func (q *QuestionCache) Get(userID uint64) *chgk_api_client.Question {
-	q.mu.Lock()
-	question, exists := q.m[userID]
-	if exists && q != nil {
+func (qc *QuestionCache) Get(userID uint64) *chgk_api_client.Question {
+	qc.mu.Lock()
+	defer qc.mu.Unlock()
+
+	question, exists := qc.m[userID]
+	if exists && qc != nil {
+		if question.expired <= time.Now().Unix() {
+			delete(qc.m, userID)
+			return nil
+		}
 		return question.q
 	}
-	q.mu.Unlock()
 	return nil
 }
 
-func (q *QuestionCache) Delete(userID uint64) {
-	q.mu.Lock()
-	delete(q.m, userID)
-	q.mu.Unlock()
+func (qc *QuestionCache) Delete(userID uint64) {
+	qc.mu.Lock()
+	defer qc.mu.Unlock()
+
+	delete(qc.m, userID)
 }
 
-func (q *QuestionCache) cleanupLoop(interval time.Duration) {
+func (qc *QuestionCache) cleanupLoop(interval time.Duration) {
 	t := time.NewTicker(interval)
 	defer t.Stop()
 
 	for {
 		select {
-		case <-q.stop:
+		case <-qc.stop:
 			return
 		case <-t.C:
-			q.mu.Lock()
-			for uid, m := range q.m {
+			qc.mu.Lock()
+			for userID, m := range qc.m {
 				if m.expired <= time.Now().Unix() {
-					delete(q.m, uid)
+					delete(qc.m, userID)
 				}
 			}
-			q.mu.Unlock()
+			qc.mu.Unlock()
 		}
 	}
 }
 
-func (q *QuestionCache) stopCleanup() {
-	close(q.stop)
-	q.wg.Wait()
+func (qc *QuestionCache) stopCleanup() {
+	close(qc.stop)
+	qc.wg.Wait()
 }
