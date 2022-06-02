@@ -44,6 +44,7 @@ func (q *QuestionCache) Get(userID uint64) *chgk_api_client.Question {
 	if exists && q != nil {
 		return question.q
 	}
+	q.mu.Unlock()
 	return nil
 }
 
