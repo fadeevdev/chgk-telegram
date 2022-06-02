@@ -5,7 +5,6 @@ import (
 	"fmt"
 	pb "gitlab.ozon.dev/fadeevdev/homework-2/api"
 	"strings"
-	"time"
 )
 
 func (s *chgkServer) WebHook(ctx context.Context, update *pb.Update) (*pb.Empty, error) {
@@ -33,7 +32,7 @@ func (s *chgkServer) WebHook(ctx context.Context, update *pb.Update) (*pb.Empty,
 			return &pb.Empty{}, err
 		}
 		_, err = s.repo.SaveQuestion(ctx, q)
-		s.cache.Put(update.Message.From.Id, q, time.Now().Add(30*time.Second).Unix())
+		s.cache.Put(update.Message.From.Id, q)
 		if err != nil {
 			return &pb.Empty{}, err
 		}

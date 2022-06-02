@@ -16,4 +16,5 @@ type Config struct {
 	ApiKeys  ApiKeys
 	Port     string
 	Postgres Postgres
+	Timer    int
 }

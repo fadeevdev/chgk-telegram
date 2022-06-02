@@ -21,7 +21,7 @@ type chgkServer struct {
 func New(config *config.Config, repo Repository) *chgkServer {
 	tg := telegram.New(config.ApiKeys.Telegram)
 	cl := chgk_api_client.New("https://db.chgk.info/")
-	qc := cache.New(60 * time.Second)
+	qc := cache.New(60*time.Second, config.Timer)
 	return &chgkServer{
 		pb.UnimplementedChgkServiceServer{},
 		tg,

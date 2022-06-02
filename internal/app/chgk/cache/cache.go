@@ -12,16 +12,18 @@ type question struct {
 }
 
 type QuestionCache struct {
-	m    map[uint64]*question
-	wg   sync.WaitGroup
-	mu   sync.Mutex
-	stop chan struct{}
+	m      map[uint64]*question
+	wg     sync.WaitGroup
+	mu     sync.Mutex
+	stop   chan struct{}
+	expire time.Duration
 }
 
-func New(cleanupInterval time.Duration) *QuestionCache {
+func New(cleanupInterval time.Duration, expire int) *QuestionCache {
 	m := make(map[uint64]*question)
 	qc := &QuestionCache{
-		m: m,
+		m:      m,
+		expire: time.Duration(expire),
 	}
 	qc.wg.Add(1)
 	go func(cleanupInterval time.Duration) {
@@ -32,11 +34,11 @@ func New(cleanupInterval time.Duration) *QuestionCache {
 	return qc
 }
 
-func (qc *QuestionCache) Put(userID uint64, q *chgk_api_client.Question, expired int64) {
+func (qc *QuestionCache) Put(userID uint64, q *chgk_api_client.Question) {
 	qc.mu.Lock()
 	defer qc.mu.Unlock()
 
-	qc.m[userID] = &question{q, expired}
+	qc.m[userID] = &question{q, time.Now().Add(qc.expire * time.Second).Unix()}
 }
 
 func (qc *QuestionCache) Get(userID uint64) *chgk_api_client.Question {
