@@ -10,19 +10,22 @@ import (
 
 type chgkServer struct {
 	pb.UnimplementedChgkServiceServer
-	tg   *telegram.Client
-	chgk *chgk_api_client.Client
-	repo Repository
+	tg    *telegram.Client
+	chgk  *chgk_api_client.Client
+	repo  Repository
+	cache map[uint64]*chgk_api_client.Question
 }
 
 func New(config *config.Config, repo Repository) *chgkServer {
 	tg := telegram.New(config.ApiKeys.Telegram)
 	cl := chgk_api_client.New("https://db.chgk.info/")
+	var m map[uint64]*chgk_api_client.Question
 	return &chgkServer{
 		pb.UnimplementedChgkServiceServer{},
 		tg,
 		cl,
 		repo,
+		m,
 	}
 }
 
