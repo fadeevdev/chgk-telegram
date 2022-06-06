@@ -44,12 +44,22 @@ func (s *chgkServer) WebHook(ctx context.Context, update *pb.Update) (*pb.Empty,
 	default:
 		q := s.cache.Get(update.Message.From.Id)
 		if q != nil {
-			if strings.Contains(strings.ToLower(q.Answer), strings.ToLower(update.Message.Text)) {
+			userAnswer := strings.ToLower(update.Message.Text)
+			answer := strings.Fields(strings.ToLower(q.Answer))
+			answered := false
+			for _, a := range answer {
+				if userAnswer == a {
+					answered = true
+					break
+				}
+			}
+			if answered {
 				_, err := s.tg.SendMessage(update.Message.From.Id,
 					fmt.Sprintf("Верно! Полный ответ: %s\nКомментарии: %s", q.Answer, q.Comments))
 				if err != nil {
 					return &pb.Empty{}, err
 				}
+				s.repo.AddToTop(ctx, update.Message.From.Id, q.ID)
 			} else {
 				_, err := s.tg.SendMessage(update.Message.From.Id,
 					fmt.Sprintf("Неверно! Попробуйте снова!"))

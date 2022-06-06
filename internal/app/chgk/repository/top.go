@@ -17,3 +17,21 @@ func (r *repository) GetTopPosition(ctx context.Context, u models.User) ([]model
 	`
 	return nil, nil
 }
+
+func (r *repository) AddToTop(ctx context.Context, uID uint64, qID uint64) (err error) {
+	const query = `
+		update correct_answers (
+			id,
+			answered_questions
+		) VALUES (
+			$1, $2
+		) ON CONFLICT (id) do
+			update set answered_questions = array_prepend(answered_questions, $2);
+	`
+	r.pool.QueryRow(ctx, query,
+		uID,
+		qID,
+	)
+
+	return
+}

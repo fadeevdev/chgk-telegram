@@ -11,4 +11,5 @@ type Repository interface {
 	GetUser(context.Context, uint64) (models.User, error)
 	SaveQuestion(ctx context.Context, question *chgk_api_client.Question) (uint64, error)
 	GetTopPlayers(ctx context.Context, n uint64) ([]models.User, error)
+	AddToTop(ctx context.Context, uID uint64, qID uint64) (err error)
 }
