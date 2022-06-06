@@ -9,6 +9,14 @@ func (s *chgkServer) GetTopPlayers(ctx context.Context, u *pb.Count) (*pb.TopUse
 	return nil, nil
 }
 
-func (s *chgkServer) GetTopPosition(ctx context.Context, u *pb.User) (*pb.TopUser, error) {
-	return nil, nil
+func (s *chgkServer) GetTopPosition(ctx context.Context, u *pb.User) (top *pb.TopUser, err error) {
+	position, err := s.repo.GetTopPosition(ctx, u.Id)
+	if err != nil {
+		return
+	}
+	top.Position = position.Position
+	top.FirstName = position.FirstName
+	top.Questions = position.Questions
+
+	return
 }

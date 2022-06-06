@@ -41,6 +41,16 @@ func (s *chgkServer) WebHook(ctx context.Context, update *pb.Update) (*pb.Empty,
 			return &pb.Empty{}, err
 		}
 		return &pb.Empty{}, nil
+	case "/top":
+		pos, err := s.repo.GetTopPosition(ctx, update.Message.From.Id)
+		if err != nil {
+			return &pb.Empty{}, err
+		}
+		_, err = s.tg.SendMessage(update.Message.From.Id, fmt.Sprintf("%s, your position is %d in top, answered questions: %d", pos.FirstName, pos.Position, pos.Questions))
+		if err != nil {
+			return &pb.Empty{}, err
+		}
+		return &pb.Empty{}, nil
 	default:
 		q := s.cache.Get(update.Message.From.Id)
 		if q != nil {
@@ -55,21 +65,24 @@ func (s *chgkServer) WebHook(ctx context.Context, update *pb.Update) (*pb.Empty,
 			}
 			if answered {
 				_, err := s.tg.SendMessage(update.Message.From.Id,
-					fmt.Sprintf("Верно! Полный ответ: %s\nКомментарии: %s", q.Answer, q.Comments))
+					fmt.Sprintf("Right! Full answer: %s\nComments: %s", q.Answer, q.Comments))
 				if err != nil {
 					return &pb.Empty{}, err
 				}
-				s.repo.AddToTop(ctx, update.Message.From.Id, q.ID)
+				err = s.repo.AddToTop(ctx, update.Message.From.Id, q.ID)
+				if err != nil {
+					return &pb.Empty{}, err
+				}
 			} else {
 				_, err := s.tg.SendMessage(update.Message.From.Id,
-					fmt.Sprintf("Неверно! Попробуйте снова!"))
+					fmt.Sprintf("Wrong! Try again!"))
 				if err != nil {
 					return &pb.Empty{}, err
 				}
 			}
 		} else {
 			_, err := s.tg.SendMessage(update.Message.From.Id,
-				fmt.Sprintf("Запросите новый вопрос!"))
+				fmt.Sprintf("Query a new question please!"))
 			if err != nil {
 				return &pb.Empty{}, err
 			}

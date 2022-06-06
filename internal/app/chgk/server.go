@@ -54,5 +54,4 @@ func (s chgkServer) GetRandomQuestion(ctx context.Context, in *pb.SendMessageReq
 	}
 	s.tg.SendMessage(in.ChatId, question.Question)
 	return question, nil
-
 }

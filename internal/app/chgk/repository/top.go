@@ -10,12 +10,30 @@ func (r *repository) GetTopPlayers(ctx context.Context, n uint64) ([]models.User
 	return nil, nil
 }
 
-func (r *repository) GetTopPosition(ctx context.Context, u models.User) ([]models.TopUser, error) {
-	//TBD
+func (r *repository) GetTopPosition(ctx context.Context, uID uint64) (position models.TopUser, err error) {
 	const query = `
-		select * from questions
+		select position, questions 
+			from (
+   				select *,
+					array_length(answered_questions) as questions,
+        			row_number() over(
+          		 order by array_length(answered_questions) desc
+        		) as position 
+				from answered_questions
+		) result 
+		where user_id = $1;
 	`
-	return nil, nil
+	err = r.pool.QueryRow(ctx, query,
+		uID,
+	).Scan(&position.Position, &position.Questions)
+	u, err := r.GetUser(ctx, uID)
+	if err != nil {
+		return
+	}
+
+	position.FirstName = u.FirstName
+
+	return
 }
 
 func (r *repository) AddToTop(ctx context.Context, uID uint64, qID uint64) (err error) {
