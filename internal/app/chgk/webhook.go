@@ -36,7 +36,7 @@ func (s *chgkServer) WebHook(ctx context.Context, update *pb.Update) (*pb.Empty,
 		if err != nil {
 			return &pb.Empty{}, err
 		}
-		_, err = s.tg.SendMessage(update.Message.From.Id, fmt.Sprintf("ID: %d\nВопрос: %s?\nАвтор(ы):%s", q.ID, q.Question, q.Authors))
+		_, err = s.tg.SendMessage(update.Message.From.Id, fmt.Sprintf("ID: %d\nQuestion: %s?\nAuthor(s):%s", q.ID, q.Question, q.Authors))
 		if err != nil {
 			return &pb.Empty{}, err
 		}
@@ -64,12 +64,12 @@ func (s *chgkServer) WebHook(ctx context.Context, update *pb.Update) (*pb.Empty,
 				}
 			}
 			if answered {
-				_, err := s.tg.SendMessage(update.Message.From.Id,
-					fmt.Sprintf("Right! Full answer: %s\nComments: %s", q.Answer, q.Comments))
+				err := s.repo.AddToTop(ctx, update.Message.From.Id, q.ID)
 				if err != nil {
 					return &pb.Empty{}, err
 				}
-				err = s.repo.AddToTop(ctx, update.Message.From.Id, q.ID)
+				_, err = s.tg.SendMessage(update.Message.From.Id,
+					fmt.Sprintf("Right! Full answer: %s\nComments: %s", q.Answer, q.Comments))
 				if err != nil {
 					return &pb.Empty{}, err
 				}

@@ -15,11 +15,11 @@ func (r *repository) GetTopPosition(ctx context.Context, uID uint64) (position m
 		select position, questions 
 			from (
    				select *,
-					array_length(answered_questions) as questions,
+					array_length(answered_questions, 1) as questions,
         			row_number() over(
-          		 order by array_length(answered_questions) desc
+          		 order by array_length(answered_questions, 1) desc
         		) as position 
-				from answered_questions
+				from correct_answers
 		) result 
 		where user_id = $1;
 	`
