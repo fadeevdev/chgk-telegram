@@ -9,6 +9,9 @@ import (
 
 func (s *chgkServer) WebHook(ctx context.Context, update *pb.Update) (*pb.Empty, error) {
 	fmt.Printf("received a message: %s\n", update)
+	if update.Message == nil {
+		return &pb.Empty{}, nil
+	}
 	switch update.Message.Text {
 	case "/start":
 		_, err := s.RegisterUser(ctx, update.Message.From)
