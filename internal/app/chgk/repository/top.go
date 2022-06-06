@@ -46,7 +46,7 @@ func (r *repository) AddToTop(ctx context.Context, uID uint64, qID uint64) (err 
 		) ON CONFLICT (id) do
 			update set answered_questions = array_prepend(answered_questions, $2);
 	`
-	r.pool.QueryRow(ctx, query,
+	_, err = r.pool.Exec(ctx, query,
 		uID,
 		qID,
 	)
