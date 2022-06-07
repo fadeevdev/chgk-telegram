@@ -18,25 +18,6 @@
 5. In case of correct answer this will be added to database to keep a rating of users
 6. Display top N players by quantity of questions answered correclty
 
-#### Handlers
-```http request
-"/v1/webhook" - webhook handler for telegram bot
-```
-```http request
-"/v1/questions/random" - request for a random question
-```
-```http request
-"/v1/message/send" - send a message to user
-```
-```http request
-"/v1/user/register" - register a new user
-```
-```http request
-"/v1/user/top/user" - get user's position in top
-```
-```http request
-"/v1/user/top" - get N number of users from top
-```
 
 #### Improvements for future
 1. Request for a question after desired date. Example API: http://db.chgk.info/xml/random/from_2012-01-01/limit1
@@ -45,6 +26,31 @@
 4. Create internal database of questions pulled from https://db.chgk.info/xml API
 5. "..."
 
+#### Handlers
+webhook handler for telegram bot
+```http request
+/v1/webhook
+```
+request for a random question
+```http request
+/v1/questions/random
+```
+send a message to user
+```http request
+/v1/message/send
+```
+register a new user
+```http request
+/v1/user/register
+```
+get user's position in top
+```http request
+/v1/user/top/user
+```
+get N number of users from top
+```http request
+/v1/user/top
+```
 
 #### Tools required
 > sudo apt install -y protobuf-compiler
