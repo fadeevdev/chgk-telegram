@@ -49,7 +49,7 @@ func (s *chgkServer) WebHook(ctx context.Context, update *pb.Update) (*pb.Empty,
 		if err != nil {
 			return &pb.Empty{}, err
 		}
-		_, err = s.tg.SendMessage(update.Message.From.Id, fmt.Sprintf("%s, your position is %d in top, answered questions: %d", pos.FirstName, pos.Position, pos.Questions))
+		_, err = s.tg.SendMessage(update.Message.From.Id, fmt.Sprintf("%s, your position is %d in top, answered questions: %d", pos.Username, pos.Position, pos.Questions))
 		if err != nil {
 			return &pb.Empty{}, err
 		}
@@ -71,6 +71,7 @@ func (s *chgkServer) WebHook(ctx context.Context, update *pb.Update) (*pb.Empty,
 				if err != nil {
 					return &pb.Empty{}, err
 				}
+				s.cache.Delete(update.Message.From.Id)
 				_, err = s.tg.SendMessage(update.Message.From.Id,
 					fmt.Sprintf("Right! Full answer: %s\nComments: %s", q.Answer, q.Comments))
 				if err != nil {

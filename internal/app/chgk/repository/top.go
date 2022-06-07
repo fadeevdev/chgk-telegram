@@ -33,7 +33,7 @@ func (r *repository) GetTopPosition(ctx context.Context, uID uint64) (position m
 		return
 	}
 
-	position.FirstName = u.FirstName
+	position.Username = u.Username
 
 	return
 }

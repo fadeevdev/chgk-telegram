@@ -11,7 +11,7 @@ type User struct {
 }
 
 type TopUser struct {
-	FirstName string
+	Username  string
 	Position  uint64
 	Questions uint64
 }

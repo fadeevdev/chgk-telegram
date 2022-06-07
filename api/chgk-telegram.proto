@@ -30,7 +30,7 @@ message User {
 }
 
 message TopUser {
-  string firstName = 1;
+  string userName = 1;
   uint64 position = 2;
   uint64 questions = 3;
 }
