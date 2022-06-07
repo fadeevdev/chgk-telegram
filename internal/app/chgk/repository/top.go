@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
+	"github.com/lib/pq"
 	"gitlab.ozon.dev/fadeevdev/homework-2/internal/app/models"
 )
 
@@ -43,13 +44,13 @@ func (r *repository) AddToTop(ctx context.Context, uID uint64, qID uint64) (err 
 			user_id,
 			answered_questions
 		) VALUES (
-			$1, array[$2]
+			$1, $2
 		) ON CONFLICT (id) do
 			update set answered_questions = array_append(answered_questions, $2);
 	`
 	_, err = r.pool.Exec(ctx, query,
 		uID,
-		qID,
+		pq.Array(qID),
 	)
 
 	fmt.Println(err)
