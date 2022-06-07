@@ -29,27 +29,27 @@
 #### Handlers
 webhook handler for telegram bot
 ```http request
-/v1/webhook
+"/v1/webhook"
 ```
 request for a random question
 ```http request
-/v1/questions/random
+"/v1/questions/random"
 ```
 send a message to user
 ```http request
-/v1/message/send
+"/v1/message/send"
 ```
 register a new user
 ```http request
-/v1/user/register
+"/v1/user/register"
 ```
 get user's position in top
 ```http request
-/v1/user/top/user
+"/v1/user/top/user"
 ```
 get N number of users from top
 ```http request
-/v1/user/top
+"/v1/user/top"
 ```
 
 #### Tools required
