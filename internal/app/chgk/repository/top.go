@@ -40,7 +40,7 @@ func (r *repository) GetTopPosition(ctx context.Context, uID uint64) (position m
 func (r *repository) AddToTop(ctx context.Context, uID uint64, qID uint64) (err error) {
 	const query = `
 		insert into correct_answers (
-			id,
+			user_id,
 			answered_questions
 		) VALUES (
 			$1, '{$2}'
