@@ -5,9 +5,9 @@ import "strings"
 func maskString(s string) string {
 	var sb strings.Builder
 	for s := range []rune(strings.ToLower(s)) {
-		if s >= 'a' && s <= 'z' {
+		if s >= 'а' && s <= 'я' {
 			sb.WriteRune('x')
-		} else if s >= 'A' && s <= 'Z' {
+		} else if s >= 'А' && s <= 'Я' {
 			sb.WriteRune('X')
 		} else {
 			sb.WriteRune(rune(s))
