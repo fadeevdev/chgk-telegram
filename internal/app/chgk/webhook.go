@@ -39,7 +39,8 @@ func (s *chgkServer) WebHook(ctx context.Context, update *pb.Update) (*pb.Empty,
 		if err != nil {
 			return &pb.Empty{}, err
 		}
-		_, err = s.tg.SendMessage(update.Message.From.Id, fmt.Sprintf("ID: %d\nQuestion: %s?\nAuthor(s):%s", q.ID, q.Question, q.Authors))
+		maskedAnswer := maskString(q.Answer)
+		_, err = s.tg.SendMessage(update.Message.From.Id, fmt.Sprintf("ID: %d\nQuestion: %s?\nAuthor(s):%s\nAnswer: %s", q.ID, q.Question, q.Authors, maskedAnswer))
 		if err != nil {
 			return &pb.Empty{}, err
 		}
@@ -58,15 +59,8 @@ func (s *chgkServer) WebHook(ctx context.Context, update *pb.Update) (*pb.Empty,
 		q := s.cache.Get(update.Message.From.Id)
 		if q != nil {
 			userAnswer := strings.ToLower(update.Message.Text)
-			answer := strings.Fields(strings.ToLower(q.Answer))
-			answered := false
-			for _, a := range answer {
-				if userAnswer == a {
-					answered = true
-					break
-				}
-			}
-			if answered {
+			answer := strings.ToLower(q.Answer)
+			if userAnswer == answer {
 				err := s.repo.AddToTop(ctx, update.Message.From.Id, q.ID)
 				if err != nil {
 					return &pb.Empty{}, err
