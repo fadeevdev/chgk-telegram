@@ -1,7 +1,7 @@
 -- +goose Up
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS correct_answers (
-    user_id int REFERENCES users (id) not null,
+    user_id int REFERENCES users (id) not null UNIQUE,
     answered_questions int[]
     );
 -- +goose StatementEnd
