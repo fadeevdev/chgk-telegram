@@ -4,7 +4,7 @@ import "strings"
 
 func maskString(s string) string {
 	var sb strings.Builder
-	for s := range []rune(strings.ToLower(s)) {
+	for _, s := range []rune(strings.ToLower(s)) {
 		if s >= 'а' && s <= 'я' {
 			sb.WriteRune('x')
 		} else if s >= 'А' && s <= 'Я' {
