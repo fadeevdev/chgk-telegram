@@ -24,6 +24,7 @@ func New(cleanupInterval time.Duration, expire int) *QuestionCache {
 	qc := &QuestionCache{
 		m:      m,
 		expire: time.Duration(expire),
+		stop:   make(chan struct{}),
 	}
 	qc.wg.Add(1)
 	go func(cleanupInterval time.Duration) {
