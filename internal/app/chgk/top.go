@@ -15,7 +15,7 @@ func (s *chgkServer) GetTopPosition(ctx context.Context, u *pb.User) (top *pb.To
 		return
 	}
 	top.Position = position.Position
-	top.FirstName = position.Username
+	top.UserName = position.Username
 	top.Questions = position.Questions
 
 	return
