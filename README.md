@@ -1,4 +1,3 @@
-## Homework №2 for Dmitrii Fadeev
 # CHGK-Telegram-Bot
 #### Available features:
 1. Random questions are taken from https://db.chgk.info/
